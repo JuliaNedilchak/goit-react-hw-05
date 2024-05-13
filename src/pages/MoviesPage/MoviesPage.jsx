@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import { apiMovieSearch } from "../../api";
-import { Link } from "react-router-dom";
+
+import MovieList from "../../components/MovieList/MovieList";
 
 const FORM_INITIAL_VALUES = {
   movieSearch: "",
 };
 const MoviesPage = () => {
-  const [search, setSearch] = useState(null);
+  const [search, setSearch] = useState([]);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -40,15 +41,7 @@ const MoviesPage = () => {
       </Formik>
       <div>
         <h2>Search Results:</h2>
-        <ul>
-          {search !== null &&
-            Array.isArray(search) &&
-            search.map((movie) => (
-              <Link to={`/movies/${movie.id}`} key={movie.id}>
-                <li>{movie.original_title}</li>
-              </Link>
-            ))}
-        </ul>
+        {search.length > 0 && <MovieList movies={search} />}
       </div>
     </div>
   );

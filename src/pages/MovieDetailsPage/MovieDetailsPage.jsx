@@ -1,51 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { apiMovieId, apiMovieGenre } from "../../api";
+import { Link, Route, Routes, useParams } from "react-router-dom";
+import { apiMovieId } from "../../api";
+import MovieCast from "../../components/MovieCast/MovieCast";
+import MovieReviews from "../../components/MovieReviews/MovieReviews";
 
 const imgUrl = "https://image.tmdb.org/t/p/w200";
 const MovieDetailsPage = () => {
-  const { movie_id } = useParams();
+  const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
-  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
     async function fetchMovieId() {
       try {
-        const data = await apiMovieId(movie_id);
+        const data = await apiMovieId(movieId);
+
         setMovieDetails(data);
       } catch (error) {
         console.log(error);
       }
     }
-    async function fetchGenres() {
-      try {
-        const genreData = await apiMovieGenre();
-        console.log("Genre Data:", genreData);
-        // Fetch genre list
-        setGenres(genreData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchMovieId();
-    fetchGenres();
-  }, [movie_id]);
 
-  const genreMarkup = () => {
-    if (
-      movieDetails === null ||
-      movieDetails === undefined ||
-      genres.length === 0
-    )
-      return null;
-    const filteredgenres = genres.filter((genre) =>
-      movieDetails.genre_ids.includes(genre.id)
-    );
-    console.log(filteredgenres);
-    return filteredgenres.map((genre) => {
-      return <span key={genre.id}>{genre.name}</span>;
-    });
-  };
+    fetchMovieId();
+  }, [movieId]);
 
   return (
     <div>
@@ -59,12 +35,19 @@ const MovieDetailsPage = () => {
           <p>user score: {Math.ceil(movieDetails.vote_average * 10)}%</p>
           <h3>Overview</h3>
           <p>{movieDetails.overview}</p>
-          <h3>
-            <p>{genreMarkup()}</p>
-          </h3>
-          <p>ggg</p>
+          <h3>Genres:</h3>
+          <p>{movieDetails.genres.map((genre) => genre.name).join(", ")}</p>
         </div>
       )}
+      <div>
+        <h3>Additional information</h3>
+        <Link to="cast">Cast</Link>
+        <Link to="reviews">Reviews</Link>
+        <Routes>
+          <Route path="cast" element={<MovieCast />} />
+          <Route path="reviews" element={<MovieReviews />} />
+        </Routes>
+      </div>
     </div>
   );
 };
