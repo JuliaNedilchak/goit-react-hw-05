@@ -1,0 +1,11 @@
+.button {
+  margin-top: 20px;
+}
+.additional {
+  column-gap: 12px;
+  margin-right: 12px;
+}
+.cast {
+  display: flex;
+  gap: 12px;
+}

@@ -4,3 +4,9 @@
 .active {
   color: red;
 }
+
+.navigation {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}

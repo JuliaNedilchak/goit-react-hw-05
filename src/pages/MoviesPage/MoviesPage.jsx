@@ -3,6 +3,8 @@ import { Formik, Form, Field } from "formik";
 import { apiMovieSearch } from "../../api";
 
 import MovieList from "../../components/MovieList/MovieList";
+import { useLocation, useSearchParams } from "react-router-dom";
+import css from "./MoviesPage.module.css";
 
 const FORM_INITIAL_VALUES = {
   movieSearch: "",
@@ -10,6 +12,8 @@ const FORM_INITIAL_VALUES = {
 const MoviesPage = () => {
   const [search, setSearch] = useState([]);
   const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  
 
   useEffect(() => {
     async function fetchMovieSearch() {
@@ -30,13 +34,14 @@ const MoviesPage = () => {
   };
   const handleSubmit = (values) => {
     onSearchQuery(values.movieSearch);
+    setSearchParams({ query: values.movieSearch });
   };
   return (
     <div>
       <Formik initialValues={FORM_INITIAL_VALUES} onSubmit={handleSubmit}>
         <Form>
           <Field type="text" name="movieSearch" placeholder="search..." />
-          <button type="submit">search</button>
+          <button className={css.submitButton} type="submit">search</button>
         </Form>
       </Formik>
       <div>

@@ -6,7 +6,7 @@ import clsx from "clsx";
 const Navigation = () => {
   return (
     <div>
-      <nav>
+      <nav className={css.navigation}>
         <NavLink
           className={({ isActive }) =>
             clsx(css.navLink, { [css.active]: isActive })

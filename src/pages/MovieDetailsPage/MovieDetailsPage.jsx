@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Link, Route, Routes, useParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { apiMovieId } from "../../api";
 import MovieCast from "../../components/MovieCast/MovieCast";
 import MovieReviews from "../../components/MovieReviews/MovieReviews";
+import css from "./MovieDetailsPage.module.css";
 
 const imgUrl = "https://image.tmdb.org/t/p/w200";
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
+  const location = useLocation();
+  const backLinkRef = useRef(location.state ?? "/movies");
 
   useEffect(() => {
     async function fetchMovieId() {
@@ -25,6 +28,9 @@ const MovieDetailsPage = () => {
 
   return (
     <div>
+      <Link className={css.button} to={backLinkRef.current}>
+        Go back
+      </Link>
       {movieDetails !== null && (
         <div>
           <img
@@ -39,9 +45,11 @@ const MovieDetailsPage = () => {
           <p>{movieDetails.genres.map((genre) => genre.name).join(", ")}</p>
         </div>
       )}
-      <div>
-        <h3>Additional information</h3>
-        <Link to="cast">Cast</Link>
+      <h3>Additional information</h3>
+      <div className={css.additional}>
+        <Link className={css.cast} to="cast">
+          Cast
+        </Link>
         <Link to="reviews">Reviews</Link>
         <Routes>
           <Route path="cast" element={<MovieCast />} />

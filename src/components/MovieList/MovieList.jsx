@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-
-import { NavLink } from "react-router-dom";
+import css from "./MovieList.module.css";
+import { Link, useLocation } from "react-router-dom";
 
 const MovieList = ({ movies }) => {
+  const location = useLocation();
   return (
     <div>
-      <ul>
+      <ul className={css.list}>
         {movies.map((movieItem) => {
           return (
             <li key={movieItem.id}>
-              <NavLink to={`/movies/${movieItem.id}/`}>
+              <Link state={location} to={`/movies/${movieItem.id}/`}>
                 {movieItem.original_title}
-              </NavLink>
+              </Link>
             </li>
           );
         })}
