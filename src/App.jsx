@@ -1,7 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 
-//import Navigation from "./components/Navigation/Navigation";
 //import HomePage from "./pages/HomePage/HomePage";
 //import MoviesPage from "../src/pages/MoviesPage/MoviesPage";
 //import MovieDetailsPage from "../src/pages/MovieDetailsPage/MovieDetailsPage";
@@ -18,7 +17,9 @@ const App = () => {
   return (
     <div>
       <header>
-        <Navigation />
+        <Suspense fallback={<div>Loading navigation...</div>}>
+          <Navigation />
+        </Suspense>
       </header>
       <main>
         <Suspense>
